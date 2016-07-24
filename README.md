@@ -1,2 +1,2 @@
 # Admin2
-Start Up spring MVC web application
+Start Up Spring MVC web application
