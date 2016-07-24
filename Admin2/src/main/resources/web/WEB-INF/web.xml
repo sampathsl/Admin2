@@ -113,12 +113,12 @@
 			<url-pattern>/</url-pattern>
   		</web-resource-collection>
 	    <auth-constraint>
-	       	<role-name>empire</role-name>
+	       	<role-name>sample</role-name>
 		</auth-constraint>
 	</security-constraint>
 	
     <security-role>
-    	<role-name>empire</role-name>
+    	<role-name>sample</role-name>
     </security-role>
 	 
 	<session-config>

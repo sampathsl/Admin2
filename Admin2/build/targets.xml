@@ -139,7 +139,6 @@
 				<lib dir="${repo.trdpty.distonly.dir}" includes="${thirdparty.distonly.includes}"/>
 				<lib dir="${repo.intrnl.common.dir}" includes="${internal.common.includes}"/>
 				<lib dir="${repo.intrnl.distonly.dir}" includes="${internal.distonly.includes}"/>
-				<lib dir="${lib.local.dir}" includes="empire-aggregator.jar" />
 			</war>
 		</target>
 	
@@ -176,7 +175,6 @@
 	<target name="remove-cached-jsps" depends="" description="">
 		<delete verbose="true" >
 			<!-- <fileset dir="${external.jboss.deploy.dir}/../work/jboss.web/localhost/${module.name}/org/apache/jsp" /> -->
-			<fileset dir="c:/jboss-4.0.2-copy-from-rackspace/server/default/work/jboss.web/localhost/tim-aggregator/org/apache/jsp" includes="**/*.*" />
 		</delete>
 		
 	</target>
@@ -186,7 +184,6 @@
 		<mkdir dir="${external.jboss.deploy.dir}/${module.war}/WEB-INF/jsp" />
 		<copy  todir="${external.jboss.deploy.dir}/${module.war}/WEB-INF/jsp" failonerror="true" >
 			<!-- <fileset dir="${src.web.dir}/WEB-INF/jsp" includes="**/*.*" /> -->
-			<fileset dir="C:/Projects/tim-aggregator/src/main/resources/web/WEB-INF/jsp" includes="**/*.*" />
 		</copy>
 	</target>
 	
