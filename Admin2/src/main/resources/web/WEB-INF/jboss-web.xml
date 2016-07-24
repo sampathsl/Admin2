@@ -1,0 +1,4 @@
+<jboss-web>
+  <security-domain>java:/jaas/sample</security-domain>
+  <context-root>admin2</context-root>
+</jboss-web>

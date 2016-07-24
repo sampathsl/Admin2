@@ -1,0 +1,251 @@
+<!DOCTYPE project [
+  <!ENTITY definition-xml SYSTEM "./definitions.xml">
+]>
+<project name="Admin2" default="clean-build" basedir=".">
+	<target name="include" description="include the properties" >
+		&definition-xml;
+	</target>
+	
+	<target name="clean" description="clean the build envirenment" depends="include">
+		<echo message=""/>
+	    <echo message="############################################################"/>
+	    <echo message="#                                                          #"/>
+	    <echo message="#           Cleaning the Build Envirenment                 #"/>
+	    <echo message="#                                                          #"/>
+	    <echo message="############################################################"/>
+	    <echo message=""/>
+
+	    <delete dir="${target.dir}"/>
+	    <mkdir  dir="${target.dir}"/>
+		<mkdir  dir="${target.metainf.dir}"/>
+		<mkdir  dir="${target.classes.dir}"/>
+		<mkdir  dir="${target.dist.dir}"/>
+	</target>
+	
+	<target name="init" description="initialise the build envirenment" depends="include, clean">
+		<echo message=""/>
+		<echo message="############################################################"/>
+		<echo message="#                                                          #"/>
+		<echo message="#           Initializing the Build Envirenment             #"/>
+		<echo message="#                                                          #"/>
+		<echo message="############################################################"/>
+		<echo message=""/>
+		
+		<tstamp>
+				<format property="TODAY" pattern="dd-MM-yy" />
+		</tstamp>
+	    <path id="libs">
+	  		<fileset dir="${repo.trdpty.buildonly.dir}" includes="${thirdparty.buildonly.includes}"/>
+	    	<fileset dir="${repo.trdpty.common.dir}" includes="${thirdparty.common.includes}"/>
+	    	<fileset dir="${repo.intrnl.buildonly.dir}" includes="${internal.buildonly.includes}"/>
+	    	<fileset dir="${repo.intrnl.common.dir}" includes="${internal.common.includes}"/>
+	    	<fileset dir="${lib.local.dir}" includes="*.jar"/>
+		</path>
+  	</target>
+	
+	<target name="compile" depends="init" description="compile the source " >
+    	<echo message=""/>
+		<echo message="############################################################"/>
+		<echo message="#                                                          #"/>
+		<echo message="#           Compiling the Source Code                      #"/>
+		<echo message="#                                                          #"/>
+		<echo message="############################################################"/>
+		<echo message=""/>
+
+		<javac destdir="${target.classes.dir}" debug="true" source="1.7">
+			<src path="${src.java.dir}"/>
+			<classpath refid="libs"/>
+		</javac>
+		
+		<copy todir="${target.classes.dir}">
+			<fileset dir="${src.java.dir}">
+				<include name="**/*.xml"/>
+			</fileset>
+		</copy>
+	</target>
+	
+	<target name="create-components" depends="compile" description="compile the source " >
+    	<echo message=""/>
+		<echo message="############################################################"/>
+		<echo message="#                                                          #"/>
+		<echo message="#           Creating the JAR file                          #"/>
+		<echo message="#                                                          #"/>
+		<echo message="############################################################"/>
+		<echo message=""/>
+
+		<jar jarfile="${target.dist.dir}/${module.jar}" >
+      		<fileset dir="${target.classes.dir}" includes="${module.jar.includes}">
+			</fileset>
+		</jar>
+	</target>
+	
+	<target name="build" depends="include,create-components" description="build the module" >
+    	<echo message=""/>
+		<echo message="############################################################"/>
+		<echo message="#                                                          #"/>
+		<echo message="#           Copying Deliverables to Repository             #"/>
+		<echo message="#                                                          #"/>
+		<echo message="############################################################"/>
+		<echo message=""/>
+
+		<copy file="${target.dist.dir}/${module.jar}" 
+			todir="${repo.intrnl.dir}/${module.comprepo.location}" overwrite="true"/>
+	</target>
+		
+	<target name="clean-build" depends="include,clean,create-components" description="compile the source " >
+    	<echo message=""/>
+		<echo message="############################################################"/>
+		<echo message="#                                                          #"/>
+		<echo message="#           Copying Deliverables to Repository             #"/>
+		<echo message="#                                                          #"/>
+		<echo message="############################################################"/>
+		<echo message=""/>
+
+		<copy file="${target.dist.dir}/${module.jar}" todir="${repo.intrnl.dir}/${module.comprepo.location}" overwrite="true"/>
+	</target>
+		
+	<target name="create-war" depends="include,create-components" >
+		<echo message=""/>
+		<echo message="############################################################"/>
+		<echo message="#                                                          #"/>
+		<echo message="#                     Building WAR                         #"/>
+		<echo message="#                                                          #"/>
+		<echo message="############################################################"/>
+		<echo message=""/>
+		<war warfile="${target.dist.dir}/${module.war}" webxml="${src.web.dir}/WEB-INF/web.xml">
+			<fileset dir="${src.web.dir}" includes="${module.war.includes}" excludes="${module.war.excludes},**/WEB-INF/web.xml"/>
+			<fileset dir="${mroot}" includes="doclib/**"  />
+			<lib dir="${target.dist.dir}" includes="${module.jar}"/>
+			<lib dir="${repo.trdpty.common.dir}" includes="none"/>
+			<lib dir="${repo.trdpty.distonly.dir}" includes="${thirdparty.distonly.includes}"/>
+			<lib dir="${repo.intrnl.common.dir}" includes="${internal.common.includes}"/>
+			<lib dir="${repo.intrnl.distonly.dir}" includes="${internal.distonly.includes}"/>
+			<lib dir="${lib.local.dir}" includes="${lib.local.inlcudes}" excludes="${lib.local.excludes}" />
+		</war>
+	</target>
+	
+	<target name="create-light-war" depends="include,create-components" >
+			<echo message=""/>
+			<echo message="############################################################"/>
+			<echo message="#                                                          #"/>
+			<echo message="#                  Building Light WAR                      #"/>
+			<echo message="#                                                          #"/>
+			<echo message="############################################################"/>
+			<echo message=""/>
+			<war warfile="${target.dist.dir}/${module.war}" webxml="${src.web.dir}/WEB-INF/web.xml">
+				<fileset dir="${src.web.dir}" includes="${module.war.includes}" excludes="${module.war.excludes},**/WEB-INF/web.xml"/>
+				<lib dir="${target.dist.dir}" includes="${module.jar}"/>
+				<lib dir="${repo.trdpty.common.dir}" includes="${thirdparty.common.includes}"/>
+				<lib dir="${repo.trdpty.distonly.dir}" includes="${thirdparty.distonly.includes}"/>
+				<lib dir="${repo.intrnl.common.dir}" includes="${internal.common.includes}"/>
+				<lib dir="${repo.intrnl.distonly.dir}" includes="${internal.distonly.includes}"/>
+				<lib dir="${lib.local.dir}" includes="empire-aggregator.jar" />
+			</war>
+		</target>
+	
+	<target name="deploy" depends="create-war" description="deploy the application into jboss">
+			<echo message=""/>
+		    <echo message="############################################################"/>
+		    <echo message="#                                                          #"/>
+		    <echo message="#           Deploying ${module.name}                       #"/>
+		    <echo message="#                                                          #"/>
+		    <echo message="############################################################"/>
+		    <echo message=""/>
+			
+			<copy file="${target.dist.dir}/${module.war}" todir="${external.jboss.deploy.dir}" overwrite="true"/>
+	</target>
+
+	<target name="deploy-exploded" depends="create-war" description="deploy the application into jboss">
+		<echo message=""/>
+	    <echo message="############################################################"/>
+	    <echo message="#                                                          #"/>
+	    <echo message="#          Deploying exploded ${module.name}               #"/>
+	    <echo message="#                                                          #"/>
+	    <echo message="############################################################"/>
+	    <echo message=""/>
+		
+	    <delete file="${external.jboss.deploy.dir}/${module.war}" failonerror="false"/>
+		<delete dir="${external.jboss.deploy.dir}/${module.war}" failonerror="false"/>
+		<sleep seconds="5"/>
+		<mkdir dir="${external.jboss.deploy.dir}/${module.war}"/>
+		<unzip dest="${external.jboss.deploy.dir}/${module.war}">
+			<fileset file="${target.dist.dir}/${module.war}" />
+		</unzip>
+	</target>
+	
+	<target name="remove-cached-jsps" depends="" description="">
+		<delete verbose="true" >
+			<!-- <fileset dir="${external.jboss.deploy.dir}/../work/jboss.web/localhost/${module.name}/org/apache/jsp" /> -->
+			<fileset dir="c:/jboss-4.0.2-copy-from-rackspace/server/default/work/jboss.web/localhost/tim-aggregator/org/apache/jsp" includes="**/*.*" />
+		</delete>
+		
+	</target>
+	
+	<target name="jsp-quick-redeploy" depends="remove-cached-jsps" description="">
+		<delete dir="${external.jboss.deploy.dir}/${module.war}/WEB-INF/jsp" failonerror="true" verbose="true" />
+		<mkdir dir="${external.jboss.deploy.dir}/${module.war}/WEB-INF/jsp" />
+		<copy  todir="${external.jboss.deploy.dir}/${module.war}/WEB-INF/jsp" failonerror="true" >
+			<!-- <fileset dir="${src.web.dir}/WEB-INF/jsp" includes="**/*.*" /> -->
+			<fileset dir="C:/Projects/tim-aggregator/src/main/resources/web/WEB-INF/jsp" includes="**/*.*" />
+		</copy>
+	</target>
+	
+	
+    <target name="buildtests" description="Compile test tree java files">
+    	<echo message=""/>
+	    <echo message="############################################################"/>
+	    <echo message="#                                                          #"/>
+	    <echo message="#                    Build tests                           #"/>
+	    <echo message="#                                                          #"/>
+	    <echo message="############################################################"/>
+	    <echo message=""/>
+    	
+    	<delete dir="${target.test.dir}"/>
+        <mkdir dir="${target.test.dir}"/>
+    	
+        <javac destdir="${target.test.dir}" source="1.5" target="1.5" debug="true"
+            deprecation="false" optimize="false" failonerror="true">
+            <src path="${test.java.dir}"/>
+        	<src path="${src.java.dir}"/>
+        	<classpath refid="libs"/>
+        </javac>
+    </target>
+    
+    <target name="tests" depends="build, buildtests" description="Run tests">
+    	<echo message=""/>
+	    <echo message="############################################################"/>
+	    <echo message="#                                                          #"/>
+	    <echo message="#                      Run tests                           #"/>
+	    <echo message="#                                                          #"/>
+	    <echo message="############################################################"/>
+	    <echo message=""/>
+    	
+        <junit printsummary="on"
+            fork="false"
+            haltonfailure="false"
+            failureproperty="tests.failed"
+            showoutput="true">
+            <classpath refid="libs"/>
+        	<classpath path="${target.test.dir}" />
+            <formatter type="brief" usefile="false"/>
+            
+            <batchtest>
+                <fileset dir="${target.test.dir}">
+                    <include name="**/*Tests.*"/>
+                </fileset>
+            </batchtest>
+            
+        </junit>
+        
+        <fail if="tests.failed">
+            tests.failed=${tests.failed}
+            ***********************************************************
+            ***********************************************************
+            ****  One or more tests failed!  Check the output ...  ****
+            ***********************************************************
+            ***********************************************************
+        </fail>
+    </target>
+	
+	
+</project>

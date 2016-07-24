@@ -1,0 +1,54 @@
+<!-- root location of the module -->
+<property name="mroot" location="${basedir}/.."/>
+
+<!-- configurations comming form the build.properties file -->
+<property file="${mroot}/build/build.properties"/>
+
+<!-- source directory structure-->
+<property name="src.dir" location="${mroot}/src"/>
+<property name="src.java.dir" location="${src.dir}/main/java"/>
+<property name="src.res.dir" location="${src.dir}/main/resources"/>
+<property name="src.web.dir" location="${src.res.dir}/web"/>
+
+<!-- test dir -->
+<property name="test.java.dir" location="${src.dir}/test/java"/>
+
+<!-- target directory structure-->
+<property name="target.dir" location="${mroot}/tmp/bin"/>
+<property name="target.classes.dir" location="${target.dir}/classes"/>
+<property name="target.metainf.dir" location="${target.dir}/meta-inf"/>	
+<property name="target.dist.dir" location="${target.dir}/dist"/>
+<property name="target.test.dir" location="${target.dir}/test"/>
+
+<!-- repository directory structure-->
+<property name="repo.dir" location="${mroot}/${module.relpathto.comprepo}/third-repository"/>
+
+<!-- repository thirdparty directory structure-->
+<property name="repo.trdpty.dir" location="${repo.dir}/thirdparty"/>
+<property name="repo.trdpty.buildonly.dir" location="${repo.trdpty.dir}/buildonly"/>
+<property name="repo.trdpty.common.dir" location="${repo.trdpty.dir}/common"/>
+<property name="repo.trdpty.distonly.dir" location="${repo.trdpty.dir}/distonly"/>
+
+<!-- repository internal directory structure-->
+<property name="repo.intrnl.dir" location="${repo.dir}/internal"/>
+<property name="repo.intrnl.buildonly.dir" location="${repo.intrnl.dir}/buildonly"/>
+<property name="repo.intrnl.common.dir" location="${repo.intrnl.dir}/common"/>
+<property name="repo.intrnl.distonly.dir" location="${repo.intrnl.dir}/distonly"/>
+
+<!-- repository resources directory structure-->
+<property name="repo.res.dir" location="${repo.dir}/resouces"/>
+<property name="repo.res.buildonly.dir" location="${repo.res.dir}/buildonly"/>
+<property name="repo.res.distonly.dir" location="${repo.res.dir}/distonly"/>
+
+<!-- repository resources.distonly.module directory structure-->
+<property name="repo.res.module.dir" location="${repo.res.distonly.dir}/${module.name}"/>
+<property name="repo.res.module.config.dir" location="${repo.res.module.dir}/config"/>
+<property name="repo.res.module.messeges.dir" location="${repo.res.module.dir}/messeges"/>
+<property name="repo.res.module.logs.dir" location="${repo.res.module.dir}/logs"/>
+
+<!-- local libs -->
+<property name="lib.local.dir" location="${mroot}/lib" />
+
+<!-- component names -->
+<property name="module.jar" value="${module.name}.jar"/>
+<property name="module.war" value="${module.name}.war"/>

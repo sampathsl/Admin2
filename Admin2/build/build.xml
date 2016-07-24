@@ -1,0 +1,20 @@
+<project name="Admin" default="build" basedir=".">
+	<target name="clean" description="clean the targets" >
+		<ant antfile="targets.xml" target="clean" inheritAll="false"/>
+	</target>
+	<target name="build" description="compile and build the module " >
+		<ant antfile="targets.xml" target="build" inheritAll="false"/>
+	</target>
+	<target name="dist" description="distribute module to repository " >
+		<ant antfile="targets.xml" target="create-war" inheritAll="false"/>
+	</target>
+	<target name="dist-light" description="distribute module to repository " >
+			<ant antfile="targets.xml" target="create-light-war" inheritAll="false"/>
+		</target>
+	<target name="deploy" description="deploy the module to server" >
+		<ant antfile="targets.xml" target="deploy" inheritAll="false"/>
+	</target>
+	<target name="tests" description="run tests" >
+		<ant antfile="targets.xml" target="tests" inheritAll="false"/>
+	</target>
+</project>
