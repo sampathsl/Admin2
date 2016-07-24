@@ -9,7 +9,7 @@
        	http://www.springframework.org/schema/context/spring-context-2.5.xsd">
 	
 	<context:annotation-config />
-	<context:component-scan base-package="com.user.managment.controller, com.ito2.telecommunication.aggregator.web"></context:component-scan>
+	<context:component-scan base-package="com.user.login.controller,com.ito2.telecommunication.aggregator.web"></context:component-scan>
 
 	<bean id="viewResolver"
 	  class="org.springframework.web.servlet.view.InternalResourceViewResolver">
