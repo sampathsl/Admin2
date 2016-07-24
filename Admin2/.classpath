@@ -73,7 +73,7 @@
 	<classpathentry kind="lib" path="lib/spring-context-support-3.2.0.RELEASE.jar"/>
 	<classpathentry kind="lib" path="lib/xmlrpc-client-3.0.jar"/>
 	<classpathentry kind="lib" path="lib/xmlrpc-common-3.1.jar"/>
-	<classpathentry kind="lib" path="E:/CRM-WORK/TOTO/third-repository/thirdparty/common/jstl.jar"/>
-	<classpathentry kind="lib" path="E:/CRM-WORK/TOTO/third-repository/thirdparty/common/servlet.jar"/>
+	<classpathentry kind="lib" path="lib/jstl.jar"/>
+	<classpathentry kind="lib" path="lib/servlet.jar"/>
 	<classpathentry kind="output" path="build/classes"/>
 </classpath>
